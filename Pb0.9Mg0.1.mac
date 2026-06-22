@@ -1,0 +1,67 @@
+# ============================================================
+# Pb0.9Mg0.1 block, 662 keV gamma, Edep-only scoring
+# Density is an approximate comparison value.
+# ============================================================
+
+/run/numberOfThreads                22
+/run/printProgress                  1000
+/tracking/verbose                   0
+
+##############
+### Materials
+
+/SEE/material/addMaterial           Pb09Mg01_block  10.38 g/cm3   Pb 9   Mg 1
+
+##############
+### Geometry
+
+/SEE/geometry/Bulk                  Pb09Mg01_block   50 mm      50 mm     true
+/SEE/geometry/SV                    0 0 0 mm         49 49 mm   49 mm     true
+
+##############
+### Physics
+
+/SEE/physics/addPhysics             G4EmStandardPhysics_option4
+
+##############
+### Cuts
+
+/SEE/cuts/gamma     Bulk   1 um
+/SEE/cuts/electron  Bulk   1 um
+/SEE/cuts/positron  Bulk   1 um
+
+/SEE/cuts/gamma     SV     1 um
+/SEE/cuts/electron  SV     1 um
+/SEE/cuts/positron  SV     1 um
+
+##############
+### Initialize
+
+/run/initialize
+
+##############
+### Primaries
+
+/gps/particle       gamma
+/gps/direction      0 0 -1
+
+/gps/pos/type       Beam
+/gps/pos/shape      Rectangle
+/gps/pos/centre     0 0 30 mm
+/gps/pos/halfx      25 mm
+/gps/pos/halfy      25 mm
+
+/gps/ene/type       Mono
+/gps/ene/mono       662 keV
+
+##############
+### Scoring
+
+/SEE/scoring/standard/Edep          1
+/SEE/scoring/setHistogram           lin   2000   0   0.7   MeV
+/SEE/scoring/setPrecision           6
+
+##############
+### Run
+
+/run/beamOn                         1000000
